@@ -1,7 +1,9 @@
 ##SCRIPT FOR CONVERTING DATA FROM SURVEY CSV TO R DATA STRUCTURES
 
+##CONSTANTS
 #LOCAL path for csv files
 pathCsv <- "/mnt/8C1A960B1A95F286/Bartol_work/INA_Career_LOGO/resources"
+
 
 #Types of attributes in columns
 columnTypes <- c("character","character","character","integer","integer","integer","integer",
@@ -14,9 +16,123 @@ columnNames <- c("ID.Hash","Sex","Age","Student.Status","Employer.Opinion","Nati
                  "Science","Energetics","Croatia","Association.Career", "E.Mail", "Start.Date","End.Date",
                  "Network.ID")
 
-#Load data
+##Load data
 rawData <- read.csv(paste(pathCsv,"/sample_survey.csv", sep = ''),header = TRUE, na.strings = "",
                     colClasses = columnTypes, comment.char = "")
 #Set column names
 colnames(rawData) <- columnNames
+
+#Create vectors for modified data frame
+id <- character()
+sex <- character()
+age <- character()
+student.status <- integer()
+employer.opinion <- integer()
+national.identity <- integer()
+employee.satisfaction <- integer()
+future.employee <- integer()
+work.field <- character()
+ina.association <- character()
+association.career <- character()
+email <- character()
+start.date <- date()
+end.date <- date()
+network.id <- character()
+
+
+
+##### QUESTION CONSTANTS ############
+
+##Koja je vaša dobna skupina?*
+#constants
+to17 <- "do 17"
+from18To20 <- "od 18 do 20"
+from21To23 <- "od 21 do 23"
+from23To26 <- "od 24 do 26"
+from27Above <- "27 ili stariji"
+
+
+#Koje područje poslovanja INA grupacije smatrate osobno najzanimljivijim?*
+#constants
+research <- "Istraživanje i proizvodnja nafte i plina"
+rafinery <- "Rafinerije i marketing"
+finance <- "Financije"
+it_sup <- "IT potpora"
+logistics <- "Logistička potpora"
+
+##### QUESTION CONSTANTS ############
+
+
+
+
+#Iterate through data frame and do the conversion
+
+for (i in 1:nrow(rawData)) {
+      #Handle ID hash
+      id <- c(id, rawData[i,]$ID.Hash)
+
+      #Handle sex (hueuheuhueuhe69)
+      if(rawData[i,2]=="muško"){
+            sex <- c(sex,"M")
+      }
+      else{
+            sex <- c(sex,"F")
+      }
+
+      #Handle Age
+      if(rawData[i,3]==to17){
+            age <- c(age, "0-17")
+      }
+      else if(rawData[i,3]==from18To20){
+            age <- c(age, "18-20")
+      }
+      else if(rawData[i,3]==from21To23){
+            age <- c(age, "21-23")
+      }
+      else if(rawData[i,3]==from23To26){
+            age <- c(age, "24-26")
+      }
+      else{
+            age <- c(age, "27-Inf")
+      }
+
+      #Handle student status
+      # 1== STUDENT_TRUE, 0== STUDENT_FALSE
+      student.status <- c(student.status, rawData[i,]$Student.Status)
+
+      #Handle Employer opinion
+      employer.opinion <- c(employer.opinion, rawData[i,]$Employer.Opinion)
+
+      #Handle National Identity rating
+      national.identity <- c( national.identity , rawData[i,]$National.Identity)
+
+      #Handle Employee satifaction
+      employee.satisfaction <- c(employee.satisfaction, rawData[i,]$Employer.Satisfaction)
+
+      #Handle future employee
+      future.employee <- c(future.employee, rawData[i,]$Future.Employee)
+
+      #Handle Work field
+      if(rawData[i,]$Work.Field==it_sup){
+            work.field <- c(work.field, "IT_Support")
+      }
+
+      else if(rawData[i,]$Work.Field==research){
+            work.field <- c(work.field, "Research_Production_Oil_Gas")
+      }
+
+      else if(rawData[i,]$Work.Field==finance){
+            work.field <- c(work.field, "Finances")
+      }
+
+      else if(rawData[i,]$Work.Field==rafinery){
+            work.field <- c(work.field, "Rafinery_Marketing")
+      }
+
+      else{
+            work.field <- c(work.field, "Logistics")
+      }
+}
+
+
 
