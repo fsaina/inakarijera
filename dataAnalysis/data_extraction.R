@@ -22,24 +22,6 @@ rawData <- read.csv(paste(pathCsv,"/sample_survey.csv", sep = ''),header = TRUE,
 #Set column names
 colnames(rawData) <- columnNames
 
-#Create vectors for modified data frame
-id <- character()
-sex <- character()
-age <- character()
-student.status <- integer()
-employer.opinion <- integer()
-national.identity <- integer()
-employee.satisfaction <- integer()
-future.employee <- integer()
-work.field <- character()
-ina.association <- character()
-association.career <- character()
-email <- character()
-start.date <- date()
-end.date <- date()
-network.id <- character()
-
-
 
 ##### QUESTION CONSTANTS ############
 
@@ -63,7 +45,22 @@ logistics <- "Logistička potpora"
 ##### QUESTION CONSTANTS ############
 
 
-
+#Create vectors for modified data frame
+id <- character()
+sex <- character()
+age <- character()
+student.status <- integer()
+employer.opinion <- integer()
+national.identity <- integer()
+employee.satisfaction <- integer()
+future.employee <- integer()
+work.field <- character()
+ina.association <- list()
+association.career <- character()
+email <- character()
+start.date <- date()
+end.date <- date()
+network.id <- character()
 
 #Iterate through data frame and do the conversion
 
@@ -107,7 +104,7 @@ for (i in 1:nrow(rawData)) {
       national.identity <- c( national.identity , rawData[i,]$National.Identity)
 
       #Handle Employee satifaction
-      employee.satisfaction <- c(employee.satisfaction, rawData[i,]$Employer.Satisfaction)
+      employee.satisfaction <- c(employee.satisfaction, rawData[i,]$Employee.Satisfaction)
 
       #Handle future employee
       future.employee <- c(future.employee, rawData[i,]$Future.Employee)
@@ -132,7 +129,35 @@ for (i in 1:nrow(rawData)) {
       else{
             work.field <- c(work.field, "Logistics")
       }
+
+
+      #Handle INA association
+
+      #define temp variables
+      ind <- rawData[i,]$Industry
+      cre <- rawData[i,]$Creativity
+      eco <- rawData[i,]$Ecology
+      sci <- rawData[i,]$Science
+      en <- rawData[i,]$Energetics
+      cro <- rawData[i,]$Croatia
+      #> l <- c(1,l)
+      tempMat <- matrix(c(ind,cre,eco,sci,en,cro), nrow = 1, ncol = 6)
+
+      ina.association <- c(list(tempMat), ina.association)
+
+      #Handle Association career
+      association.career <- c(association.career, rawData[i,]$Association.Career)
+
+      #Handle E-mail
+      email <- c(email, rawData[i,]$E.Mail)
+
+      #Handle Network ID
+      network.id <- c(network.id, rawData[i,]$Network.ID)
+
 }
 
+#Store to new data frame
+dataProc <- data.frame(id,sex,age,student.status,employer.opinion,national.identity,employee.satisfaction,
+                       future.employee,work.field,ina.association,association.career,email,network.id)
 
 
