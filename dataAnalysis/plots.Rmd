@@ -209,5 +209,30 @@ plot
 ```
 
 
+###Plotting Age
+
+```{r fig.width = 10, fig.height = 7}
+plot <- ggplot(data = data, aes(x=age, fill=age)) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- plot + geom_bar(width=0.5) + xlab("Age") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="Age", breaks=c("0-17", "18-20","21-23","24-26","27-Inf"), 
+                                   labels=c("Do 17", "18 do 20", "21 do 23", "24 do 26", "27 i više"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+                         
+plot
+```
+
+
+###Plotting Student status
+
+```{r fig.width = 10, fig.height = 7}
+plot <- ggplot(data = data, aes(x=student.status, fill=as.factor(student.status))) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- plot + geom_bar(width=0.5) + xlab("Student status") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="Sex", breaks=c(1, 0), labels=c("Student", "Not Student"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+                         
+plot
+```
 
 
