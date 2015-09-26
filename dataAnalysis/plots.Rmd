@@ -3,9 +3,11 @@
 title: "INA Plots"
 author: "Bartol Freškura"
 date: "September 26, 2015"
-output: html_document
+output:
+      html_document:
+            toc: true
 ---
-     
+
 ```{r echo=FALSE}
 ##SCRIPT FOR CONVERTING DATA FROM SURVEY CSV TO R DATA STRUCTURES
 
@@ -204,7 +206,7 @@ plot <- plot + geom_bar(width=0.5) + xlab("Sex") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + scale_fill_discrete(name="Sex", breaks=c("F", "M"), labels=c("Female", "Male"))
 plot <- plot + scale_x_discrete(breaks=NULL)
-                         
+
 plot
 ```
 
@@ -218,7 +220,7 @@ plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(si
 plot <- plot + scale_fill_discrete(name="Age", breaks=c("0-17", "18-20","21-23","24-26","27-Inf"), 
                                    labels=c ("17 and below", "18 to 20", "21 to 23", "24 to 26", "27 or more"))
 plot <- plot + scale_x_discrete(breaks=NULL)
-                         
+
 plot
 ```
 
@@ -231,7 +233,7 @@ plot <- plot + geom_bar(width=0.5) + xlab("Student status") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + scale_fill_discrete(name="Sex", breaks=c(1, 0), labels=c("Student", "Not Student"))
 plot <- plot + scale_x_discrete(breaks=NULL)
-                         
+
 plot
 ```
 
@@ -288,13 +290,78 @@ plot
 
 ```{r fig.width = 10, fig.height = 7}
 
-plot <- ggplot(data = data, aes(x=work.field, fill=work.field)) + coord_cartesian(ylim=c(0,nrow(data)*0.5))
+plot <- ggplot(data = data, aes(x=work.field, fill=work.field)) + coord_cartesian(ylim=c(0,nrow(data)*0.45))
 plot <- plot + geom_bar(width=0.5) + xlab("Field of work") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + scale_fill_discrete(name="Field of work", breaks=c("Finances","IT_Support", "Logistics","Rafinery_Marketing","Research_Production_Oil_Gas"), 
                                    labels=c("Finances", "IT Support", "Logistics", "Rafinery or Marketing",
-                                             "Research and production of\n Oil and Gas"))
+                                            "Research and production of\n Oil and Gas"))
 plot <- plot + scale_x_discrete(breaks=NULL)
-                         
+
 plot
 ```
+
+
+###Plotting INA Association
+
+
+```{r echo=FALSE}
+#Etracting levels into seperate categories
+industry <- character()
+creativity <- character()
+ecology <- character()
+science <- character()
+energetics <- character()
+croatia <- character()
+
+for(i in 1:nrow(data)){
+      #split values into list
+      tempList <- strsplit(x=as.character(data[i,]$ina.association), split = ';')
+      
+      #convert to vector
+      tempVec <- unlist(tempList)
+      for(j in 1:length(tempVec)){
+            if(tempVec[j]=="Kreativnost"){
+                  creativity <- c(creativity,tempVec[j])
+            }
+            else if(tempVec[j]=="Industrija"){
+                  industry <- c(industry,tempVec[j])
+            }
+            else if(tempVec[j]=="Energetika"){
+                  energetics <- c(energetics,tempVec[j])
+            }
+            else if(tempVec[j]=="Ekologija"){
+                  ecology <- c(ecology,tempVec[j])
+            }
+            else if(tempVec[j]=="Znanost"){
+                  science <- c(science,tempVec[j])
+            }
+            else{
+                  croatia <- c(croatia,tempVec[j])
+            }
+      }
+      
+}
+
+
+#create new data frame
+unifiedVector <- c(industry,croatia,creativity,ecology,science,energetics)
+frameINAAssociation <- data.frame(unifiedVector)
+colnames(frameINAAssociation) <- c("ina.association")
+```
+
+
+#### Plot
+```{r fig.width = 10, fig.height = 7}
+
+plot <- ggplot(data = frameINAAssociation, aes(x=ina.association, fill=ina.association)) + coord_cartesian(ylim=c(0,nrow(frameINAAssociation)*0.5))
+plot <- plot + geom_bar(width=0.5) + xlab("INA Association") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="Associations", breaks=c("Ekologija","Energetika", "Hrvatska","Industrija","Kreativnost","Znanost"), 
+                                   labels=c("Ecology", "Energetics", "Croatia", "Industry",
+                                            "Creativity","Science"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+
+plot
+```
+
