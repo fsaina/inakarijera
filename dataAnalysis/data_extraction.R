@@ -55,7 +55,7 @@ national.identity <- integer()
 employee.satisfaction <- integer()
 future.employee <- integer()
 work.field <- character()
-ina.association <- list()
+ina.association <- character()
 association.career <- character()
 email <- character()
 start.date <- date()
@@ -134,16 +134,19 @@ for (i in 1:nrow(rawData)) {
       #Handle INA association
 
       #define temp variables
-      ind <- rawData[i,]$Industry
-      cre <- rawData[i,]$Creativity
-      eco <- rawData[i,]$Ecology
-      sci <- rawData[i,]$Science
-      en <- rawData[i,]$Energetics
-      cro <- rawData[i,]$Croatia
-      #> l <- c(1,l)
-      tempMat <- matrix(c(ind,cre,eco,sci,en,cro), nrow = 1, ncol = 6)
+      ind <- toString(rawData[i,]$Industry)
+      cre <- toString(rawData[i,]$Creativity)
+      eco <- toString(rawData[i,]$Ecology)
+      sci <- toString(rawData[i,]$Science)
+      en <- toString(rawData[i,]$Energetics)
+      cro <- toString(rawData[i,]$Croatia)
+      ##MAGIC :D
+      newVec <- paste(ind,cre,eco,sci,en,cro, sep = ";")
+      newVec <- gsub(pattern = ";NA", x = newVec, replacement = "")
+      newVec <- gsub(pattern = ";;", x = newVec, replacement = "")
+      newVec <- gsub(pattern = "NA;", x = newVec, replacement = "")
+      ina.association <- c(ina.association, newVec)
 
-      ina.association <- c(list(tempMat), ina.association)
 
       #Handle Association career
       association.career <- c(association.career, rawData[i,]$Association.Career)
