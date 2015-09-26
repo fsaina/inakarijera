@@ -302,8 +302,9 @@ plot
 ```
 
 
-###Plotting INA Association
 
+
+###Plotting INA Association
 
 ```{r echo=FALSE}
 #Etracting levels into seperate categories
@@ -351,9 +352,8 @@ colnames(frameINAAssociation) <- c("ina.association")
 ```
 
 
-#### Plot
 ```{r fig.width = 10, fig.height = 7}
-
+#PLOTTING
 plot <- ggplot(data = frameINAAssociation, aes(x=ina.association, fill=ina.association)) + coord_cartesian(ylim=c(0,nrow(frameINAAssociation)*0.5))
 plot <- plot + geom_bar(width=0.5) + xlab("INA Association") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))

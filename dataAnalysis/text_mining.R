@@ -14,7 +14,15 @@ croStop <- c("i", "ili", "sex", "kita", "kurac", "penis", "bartol", "je", "da","
              "tako","tvrci","usput","vec","vidi","volim","volite", "piso","nosit","odabor","nase","
              našem","naših","nekoj","nekom","nekome","može","moja","kroz","koliko","jest","kao",
              "jako","dovodi","druge","cyxc","doći","čime","and","baviti","aint","zbog","tijekom",
-             "mene","kojeg","biti","htjeti","koji", "ako")
+             "mene","kojeg","biti","htjeti","koji", "ako","tko","što","čiji","ciji","koja","kakav",
+             "kakve", "svakakve","svakakav","sebe","svoj","tu","one","netko","svatko", "kamo","
+             ondje","kada","zašto","donekle","mnogo","ih","gdje","kuda","zato","stoga","s","
+             sa","pa","pak","te","ni","niti","dok","god","nego","no","već","saomo","tek",
+             "čim","cim","pošto","posto","jer","budući","neka","kao","iako","premda","makar", "donald",
+             "fame","car","ćemu","bolj","gradiš","gradimo","imaš","imati","isto","jedn","jednim","
+             izrazita","gubitk","money","našem","onoga","oko","one","onog","opi","power","progr","
+             svoje", "bitch","fuck","shit","no","yes","ako","kojem","riječ","onom","itd","npr","npr.",
+             "ikakv","drugim","jednog","jednoj","nakon","mislim","svoje","ucini","")
 
 #Put all answers into one vector
 
@@ -29,6 +37,8 @@ corpus <- tm_map(corpus, content_transformer(tolower))
 
 corpus <- tm_map(corpus, removePunctuation)
 corpus <- tm_map(corpus, stripWhitespace)
+corpus <- tm_map(corpus, removeNumbers)
+#corpus <- tm_map(corpus, stemDocument)###Plotting INA Association
 
 #Remove croatian word with no specific meaning
 corpus <- tm_map(corpus, removeWords, croStop)
