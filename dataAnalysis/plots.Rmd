@@ -188,14 +188,25 @@ convertToRData <- function(path, fileName){
 ```
 
 
-
-#Load data
+###Load data
 ```{r}
+library(ggplot2)
 path <- "/mnt/8C1A960B1A95F286/Bartol_work/INA_Career_LOGO/resources/"
 name <- "sample_survey.csv"
 data <- convertToRData(path,name)
 ```
 
+###Plotting Sex
+
+```{r fig.width = 10, fig.height = 7}
+plot <- ggplot(data = data, aes(x=sex, fill=sex)) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- plot + geom_bar(width=0.5) + xlab("Sex") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="Sex", breaks=c("F", "M"), labels=c("Female", "Male"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+                         
+plot
+```
 
 
 
