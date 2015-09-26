@@ -4,9 +4,10 @@
 #' @author Bartol Freškura
 #' @description Converts raw csv file from survey to a R data structure in a form of data frame
 #' @param path Path to folder where .csv files is locatde
+#' @param fileName Name of the .csv file
 #' @return Data frame with processed data
-#' @example convertToRData("/home/username/Documents/Project/CSVDir")
-convertToRData <- function(path){
+#' @example convertToRData("/home/username/Documents/Project/CSVDir/", "sample_survey.csv")
+convertToRData <- function(path, fileName){
       
       ##CONSTANTS
       #LOCAL path for csv files
@@ -25,7 +26,7 @@ convertToRData <- function(path){
                        "Network.ID")
       
       ##Load data
-      rawData <- read.csv(paste(pathCsv,"/sample_survey.csv", sep = ''),header = TRUE, na.strings = "",
+      rawData <- read.csv(paste(pathCsv,fileName, sep = ''),header = TRUE, na.strings = "",
                           colClasses = columnTypes, comment.char = "")
       #Set column names
       colnames(rawData) <- columnNames
