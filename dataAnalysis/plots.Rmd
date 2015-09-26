@@ -216,7 +216,7 @@ plot <- ggplot(data = data, aes(x=age, fill=age)) + coord_cartesian(ylim=c(0,nro
 plot <- plot + geom_bar(width=0.5) + xlab("Age") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + scale_fill_discrete(name="Age", breaks=c("0-17", "18-20","21-23","24-26","27-Inf"), 
-                                   labels=c("Do 17", "18 do 20", "21 do 23", "24 do 26", "27 i više"))
+                                   labels=c ("17 and below", "18 to 20", "21 to 23", "24 to 26", "27 or more"))
 plot <- plot + scale_x_discrete(breaks=NULL)
                          
 plot
@@ -232,6 +232,19 @@ plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(si
 plot <- plot + scale_fill_discrete(name="Sex", breaks=c(1, 0), labels=c("Student", "Not Student"))
 plot <- plot + scale_x_discrete(breaks=NULL)
                          
+plot
+```
+
+
+
+###Plotting Employer opinion
+
+```{r fig.width = 10, fig.height = 7}
+plot <- ggplot(data = data, aes(x=as.factor(employer.opinion))) + coord_cartesian(ylim=c(0,nrow(data)*0.6))
+plot <- plot + geom_bar(width=0.5) + xlab("Employer rating") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="Sex", breaks=c(1, 0), labels=c("Student", "Not Student"))
+
 plot
 ```
 
