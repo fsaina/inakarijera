@@ -226,7 +226,7 @@ plot
 ###Plotting Student status
 
 ```{r fig.width = 10, fig.height = 7}
-plot <- ggplot(data = data, aes(x=student.status, fill=as.factor(student.status))) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- ggplot(data = data, aes(x=as.factor(student.status), fill=as.factor(student.status))) + coord_cartesian(ylim=c(0,nrow(data)))
 plot <- plot + geom_bar(width=0.5) + xlab("Student status") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + scale_fill_discrete(name="Sex", breaks=c(1, 0), labels=c("Student", "Not Student"))
@@ -241,11 +241,60 @@ plot
 
 ```{r fig.width = 10, fig.height = 7}
 plot <- ggplot(data = data, aes(x=as.factor(employer.opinion))) + coord_cartesian(ylim=c(0,nrow(data)*0.6))
-plot <- plot + geom_bar(width=0.5) + xlab("Employer rating") + ylab("Count")
+plot <- plot + geom_bar(width=0.5, fill="deepskyblue3") + xlab("Employer rating") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
-plot <- plot + scale_fill_discrete(name="Sex", breaks=c(1, 0), labels=c("Student", "Not Student"))
 
 plot
 ```
 
 
+###Plotting National identity
+
+```{r fig.width = 10, fig.height = 7}
+plot <- ggplot(data = data, aes(x=as.factor(national.identity))) + coord_cartesian(ylim=c(0,nrow(data)*0.40))
+plot <- plot + geom_bar(width=0.5, fill="deepskyblue3") + xlab("National Identity rating") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+
+plot
+```
+
+
+###Plotting Employee satisfaction
+
+```{r fig.width = 10, fig.height = 7}
+plot <- ggplot(data = data, aes(x=as.factor(employee.satisfaction), fill=as.factor(employee.satisfaction))) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- plot + geom_bar(width=0.5) + xlab("Yes or no") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="", breaks=c(1, 0), labels=c("Yes", "No"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+plot
+```
+
+
+
+###Plotting Future employee
+
+```{r fig.width = 10, fig.height = 7}
+plot <- ggplot(data = data, aes(x=as.factor(future.employee), fill=as.factor(future.employee))) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- plot + geom_bar(width=0.5) + xlab("Yes or no") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="", breaks=c(1, 0), labels=c("Yes", "No"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+plot
+```
+
+
+###Plotting Work field
+
+```{r fig.width = 10, fig.height = 7}
+
+plot <- ggplot(data = data, aes(x=work.field, fill=work.field)) + coord_cartesian(ylim=c(0,nrow(data)*0.5))
+plot <- plot + geom_bar(width=0.5) + xlab("Field of work") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="Field of work", breaks=c("Finances","IT_Support", "Logistics","Rafinery_Marketing","Research_Production_Oil_Gas"), 
+                                   labels=c("Finances", "IT Support", "Logistics", "Rafinery or Marketing",
+                                             "Research and production of\n Oil and Gas"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+                         
+plot
+```
