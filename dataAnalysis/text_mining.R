@@ -2,6 +2,9 @@
 install.packages('tm')
 library(tm)
 
+
+##TODO Make function
+
 ##CONSTANTS
 
 #Croatian stopwords
@@ -22,7 +25,8 @@ croStop <- c("i", "ili", "sex", "kita", "kurac", "penis", "bartol", "je", "da","
              "fame","car","ćemu","bolj","gradiš","gradimo","imaš","imati","isto","jedn","jednim","
              izrazita","gubitk","money","našem","onoga","oko","one","onog","opi","power","progr","
              svoje", "bitch","fuck","shit","no","yes","ako","kojem","riječ","onom","itd","npr","npr.",
-             "ikakv","drugim","jednog","jednoj","nakon","mislim","svoje","ucini","")
+             "ikakv","drugim","jednog","jednoj","nakon","mislim","svoje","ucini","karijera","karijere",
+             "karijeru","karijeri","asocira","što")
 
 #Put all answers into one vector
 
