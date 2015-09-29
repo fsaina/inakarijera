@@ -191,7 +191,7 @@ convertToRData <- function(path, fileName){
 ```
 
 
-###Load data
+##Load data
 ```{r}
 library(ggplot2)
 path <- "/mnt/8C1A960B1A95F286/Bartol_work/INA_Career_LOGO/resources/"
@@ -199,7 +199,7 @@ name <- "sample_survey.csv"
 data <- convertToRData(path,name)
 ```
 
-###Plotting Sex
+##Plotting Sex
 
 ```{r fig.width = 10, fig.height = 7}
 plot <- ggplot(data = data, aes(x=sex, fill=sex)) + coord_cartesian(ylim=c(0,nrow(data)))
@@ -207,12 +207,21 @@ plot <- plot + geom_bar(width=0.5) + xlab("Sex") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + scale_fill_discrete(name="Sex", breaks=c("F", "M"), labels=c("Female", "Male"))
 plot <- plot + scale_x_discrete(breaks=NULL)
-
+plot <- plot + ggtitle("Your sex?")
 plot
 ```
 
+###Sex Analysis
+```{r}
+prop.table(table(data$sex))*100
 
-###Plotting Age
+```
+Female percentage: XX.XX  
+Male percentage: XX.XX
+
+
+
+##Plotting Age
 
 ```{r fig.width = 10, fig.height = 7}
 plot <- ggplot(data = data, aes(x=age, fill=age)) + coord_cartesian(ylim=c(0,nrow(data)))
@@ -221,12 +230,23 @@ plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(si
 plot <- plot + scale_fill_discrete(name="Age", breaks=c("0-17", "18-20","21-23","24-26","27-Inf"), 
                                    labels=c ("17 and below", "18 to 20", "21 to 23", "24 to 26", "27 or more"))
 plot <- plot + scale_x_discrete(breaks=NULL)
-
+plot <- plot + ggtitle("Your age?")
 plot
 ```
+###Age Analysis
+```{r}
+prop.table(table(data$age))*100
+
+```
+Below 17 percentage: XX.XX  
+18-20 percentage: XX.XX  
+21-23 percentage: XX.XX  
+24-26 percentage: XX.XX  
+27 and above percentage: XX.XX
 
 
-###Plotting Student status
+
+##Plotting Student status
 
 ```{r fig.width = 10, fig.height = 7}
 plot <- ggplot(data = data, aes(x=as.factor(student.status), fill=as.factor(student.status))) + coord_cartesian(ylim=c(0,nrow(data)))
@@ -234,35 +254,89 @@ plot <- plot + geom_bar(width=0.5) + xlab("Student status") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + scale_fill_discrete(name="Sex", breaks=c(1, 0), labels=c("Student", "Not Student"))
 plot <- plot + scale_x_discrete(breaks=NULL)
-
+plot <- plot + ggtitle("Are you a student?")
 plot
 ```
 
+###Student status Analysis
+```{r}
+## 0==NOT student, 1==Student
+prop.table(table(data$student.status))*100
+
+```
+Not student percentage: XX.XX  
+Student percentage: XX.XX
 
 
-###Plotting Employer opinion
+
+##Plotting Employer opinion
 
 ```{r fig.width = 10, fig.height = 7}
 plot <- ggplot(data = data, aes(x=as.factor(employer.opinion))) + coord_cartesian(ylim=c(0,nrow(data)*0.6))
 plot <- plot + geom_bar(width=0.5, fill="deepskyblue3") + xlab("Employer rating") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
-
+plot <- plot + ggtitle("Your opinion on INA as an employer")
 plot
 ```
 
+###Employer opinion Analysis
+```{r}
+#Percentages by rating given
+prop.table(table(data$employer.opinion))*100
 
-###Plotting National identity
+mean <- mean(data$employer.opinion)
+
+summary(data$employer.opinion)
+sd <- sd(data$employer.opinion)
+
+#Calculating 95% confidence interval
+error <- qnorm(0.975)*sd/sqrt(nrow(data))
+left <- mean - error
+right <- mean + error
+
+cat(paste("95% confidence interval:", left, "-", right, sep = " "))
+
+```
+Mean rating: XX.XX  
+Standard deviation: XX.XX  
+95% confidence interval: XX.XX - XX-XX  
+
+
+##Plotting National identity
 
 ```{r fig.width = 10, fig.height = 7}
 plot <- ggplot(data = data, aes(x=as.factor(national.identity))) + coord_cartesian(ylim=c(0,nrow(data)*0.40))
 plot <- plot + geom_bar(width=0.5, fill="deepskyblue3") + xlab("National Identity rating") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
-
+plot <- plot + ggtitle("How much do you associate INA with Croatia and the croatian national identity?" )
 plot
 ```
 
+###National identity Analysis
+```{r}
+#Percentages by rating given
+prop.table(table(data$national.identity))*100
 
-###Plotting Employee satisfaction
+mean <- mean(data$national.identity)
+
+summary(data$national.identity)
+sd <- sd(data$national.identity)
+
+#Calculating 95% confidence interval
+error <- qnorm(0.975)*sd/sqrt(nrow(data))
+left <- mean - error
+right <- mean + error
+
+cat(paste("95% confidence interval:", left, "-", right, sep = " "))
+
+```
+Mean rating: XX.XX  
+Standard deviation: XX.XX  
+95% confidence interval: XX.XX - XX-XX  
+
+
+
+##Plotting Employee satisfaction
 
 ```{r fig.width = 10, fig.height = 7}
 plot <- ggplot(data = data, aes(x=as.factor(employee.satisfaction), fill=as.factor(employee.satisfaction))) + coord_cartesian(ylim=c(0,nrow(data)))
@@ -270,12 +344,23 @@ plot <- plot + geom_bar(width=0.5) + xlab("Yes or no") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + scale_fill_discrete(name="", breaks=c(1, 0), labels=c("Yes", "No"))
 plot <- plot + scale_x_discrete(breaks=NULL)
+plot <- plot + ggtitle("Would you consider yourself satisfied as an employee in one of the fields of work that INA offers?")
 plot
 ```
 
+###Employee satisfaction Analysis
+```{r}
+## 0==Wouldn't be satisfied , 1==Would be satisfied
+prop.table(table(data$employee.satisfaction))*100
+
+```
+Yes: XX.XX  
+No: XX.XX
 
 
-###Plotting Future employee
+
+
+##Plotting Future employee
 
 ```{r fig.width = 10, fig.height = 7}
 plot <- ggplot(data = data, aes(x=as.factor(future.employee), fill=as.factor(future.employee))) + coord_cartesian(ylim=c(0,nrow(data)))
@@ -283,11 +368,24 @@ plot <- plot + geom_bar(width=0.5) + xlab("Yes or no") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + scale_fill_discrete(name="", breaks=c(1, 0), labels=c("Yes", "No"))
 plot <- plot + scale_x_discrete(breaks=NULL)
+plot <- plot + ggtitle("Do you see yourself as a potential employee of the INA company?")
 plot
 ```
 
+###Future employee Analysis
+```{r}
+## 0==Doesn't see as employee , 1==See as employee
+prop.table(table(data$future.employee))*100
 
-###Plotting Work field
+```
+Yes: XX.XX  
+No: XX.XX  
+Ovdje možes naglasiti da iaoko puno ljudi bi bilo zadovoljno radom u INA-i, ne bih ih toliko htjelo
+raditi tamo
+  
+  
+
+##Plotting Work field
 
 ```{r fig.width = 10, fig.height = 7}
 
@@ -298,14 +396,27 @@ plot <- plot + scale_fill_discrete(name="Field of work", breaks=c("Finances","IT
                                    labels=c("Finances", "IT Support", "Logistics", "Rafinery or Marketing",
                                             "Research and production of\n Oil and Gas"))
 plot <- plot + scale_x_discrete(breaks=NULL)
-
+  plot <- plot + ggtitle("Which of following words would best describe your vision on INA as a company" )
 plot
 ```
 
+###Work field Analysis
+```{r}
+prop.table(table(data$work.field))*100
+
+```
+Finances: XX.XX  
+IT Support: XX.XX  
+Logistics: XX.XX  
+Rafinery or Marketing: XX.XX  
+Research and production of Oil and Gas: XX.XX
 
 
 
-###Plotting INA Association
+  
+
+
+##Plotting INA Association
 
 ```{r echo=FALSE}
 #Etracting levels into seperate categories
@@ -353,6 +464,7 @@ colnames(frameINAAssociation) <- c("ina.association")
 ```
 
 
+
 ```{r fig.width = 10, fig.height = 7}
 #PLOTTING
 plot <- ggplot(data = frameINAAssociation, aes(x=ina.association, fill=ina.association)) + coord_cartesian(ylim=c(0,nrow(frameINAAssociation)*0.5))
@@ -362,12 +474,25 @@ plot <- plot + scale_fill_discrete(name="Associations", breaks=c("Ekologija","En
                                    labels=c("Ecology", "Energetics", "Croatia", "Industry",
                                             "Creativity","Science"))
 plot <- plot + scale_x_discrete(breaks=NULL)
-
+  plot <- plot + ggtitle("Which field of work that INA offers do you consider the most interesting?")
 plot
 ```
 
+###INA Association Analysis
+```{r}
+prop.table(table(frameINAAssociation$ina.association))*100
 
-###Plotting most common words in answering career association
+```
+Ekologija: XX.XX  
+Energetika: XX.XX  
+Hrvatska: XX.XX  
+Industrija: XX.XX  
+Kreativnost: XX.XX
+Znanost: XX.XX
+
+
+
+##Plotting most common words in answering career association
 
 ```{r echo=FALSE}
 ##Install neccesary packages
@@ -446,3 +571,5 @@ wordcloud(words[1:100],max.words = 30,  scale=c(5,0.5), frequency[1:100], random
 
 ```
 
+###Most common words Analysis
+Ne znam šta da ti ovdje napisem, imaš sliku, naseri koliko možes :D
