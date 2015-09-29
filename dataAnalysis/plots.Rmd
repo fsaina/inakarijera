@@ -1,0 +1,655 @@
+
+---
+title: "INA Plots"
+author: "Bartol Freškura"
+date: "September 26, 2015"
+output:
+      html_document:
+            highlight: tango
+            toc: yes
+---
+
+```{r echo=FALSE}
+##SCRIPT FOR CONVERTING DATA FROM SURVEY CSV TO R DATA STRUCTURES
+
+#' @name Convert from csv to data frame
+#' @author Bartol Freškura
+#' @description Converts raw csv file from survey to a R data structure in a form of data frame
+#' @param path Path to folder where .csv files is locatde
+#' @param fileName Name of the .csv file
+#' @return Data frame with processed data
+#' @example convertToRData("/home/username/Documents/Project/CSVDir/", "sample_survey.csv")
+convertToRData <- function(path, fileName){
+      
+      ##CONSTANTS
+      #LOCAL path for csv files
+      pathCsv <- path
+      
+      
+      #Types of attributes in columns
+      columnTypes <- c("character","character","character","integer","integer","integer","integer",
+                       "integer", "character", "character", "character", "character", "character", "character"
+                       , "character", "character", "character", "character","character","character")
+      
+      #Column names
+      columnNames <- c("ID.Hash","Sex","Age","Student.Status","Employer.Opinion","National.Identity",
+                       "Employee.Satisfaction","Future.Employee","Work.Field","Industry","Creativity","Ecology",
+                       "Science","Energetics","Croatia","Association.Career", "E.Mail", "Start.Date","End.Date",
+                       "Network.ID")
+      
+      ##Load data
+      rawData <- read.csv(paste(pathCsv,fileName, sep = ''),header = TRUE, na.strings = "",
+                          colClasses = columnTypes, comment.char = "")
+      #Set column names
+      colnames(rawData) <- columnNames
+      
+      
+      ##### QUESTION CONSTANTS ############
+      
+      ##Koja je vaša dobna skupina?*
+      #constants
+      to17 <- "do 17"
+      from18To20 <- "od 18 do 20"
+      from21To23 <- "od 21 do 23"
+      from23To26 <- "od 24 do 26"
+      from27Above <- "27 ili stariji"
+      
+      
+      #Koje područje poslovanja INA grupacije smatrate osobno najzanimljivijim?*
+      #constants
+      research <- "Istraživanje i proizvodnja nafte i plina"
+      rafinery <- "Rafinerije i marketing"
+      finance <- "Financije"
+      it_sup <- "IT potpora"
+      logistics <- "Logistička potpora"
+      
+      ##### QUESTION CONSTANTS ############
+      
+      
+      #Create vectors for modified data frame
+      id <- character()
+      sex <- character()
+      age <- character()
+      student.status <- integer()
+      employer.opinion <- integer()
+      national.identity <- integer()
+      employee.satisfaction <- integer()
+      future.employee <- integer()
+      work.field <- character()
+      ina.association <- character()
+      association.career <- character()
+      email <- character()
+      start.date <- date()
+      end.date <- date()
+      network.id <- character()
+      
+      #Iterate through data frame and do the conversion
+      
+      for (i in 1:nrow(rawData)) {
+            #Handle ID hash
+            id <- c(id, rawData[i,]$ID.Hash)
+            
+            #Handle sex (hueuheuhueuhe69)
+            if(rawData[i,2]=="muško"){
+                  sex <- c(sex,"M")
+            }
+            else{
+                  sex <- c(sex,"F")
+            }
+            
+            #Handle Age
+            if(rawData[i,3]==to17){
+                  age <- c(age, "0-17")
+            }
+            else if(rawData[i,3]==from18To20){
+                  age <- c(age, "18-20")
+            }
+            else if(rawData[i,3]==from21To23){
+                  age <- c(age, "21-23")
+            }
+            else if(rawData[i,3]==from23To26){
+                  age <- c(age, "24-26")
+            }
+            else{
+                  age <- c(age, "27-Inf")
+            }
+            
+            #Handle student status
+            # 1== STUDENT_TRUE, 0== STUDENT_FALSE
+            student.status <- c(student.status, rawData[i,]$Student.Status)
+            
+            #Handle Employer opinion
+            employer.opinion <- c(employer.opinion, rawData[i,]$Employer.Opinion)
+            
+            #Handle National Identity rating
+            national.identity <- c( national.identity , rawData[i,]$National.Identity)
+            
+            #Handle Employee satifaction
+            employee.satisfaction <- c(employee.satisfaction, rawData[i,]$Employee.Satisfaction)
+            
+            #Handle future employee
+            future.employee <- c(future.employee, rawData[i,]$Future.Employee)
+            
+            #Handle Work field
+            if(rawData[i,]$Work.Field==it_sup){
+                  work.field <- c(work.field, "IT_Support")
+            }
+            
+            else if(rawData[i,]$Work.Field==research){
+                  work.field <- c(work.field, "Research_Production_Oil_Gas")
+            }
+            
+            else if(rawData[i,]$Work.Field==finance){
+                  work.field <- c(work.field, "Finances")
+            }
+            
+            else if(rawData[i,]$Work.Field==rafinery){
+                  work.field <- c(work.field, "Rafinery_Marketing")
+            }
+            
+            else{
+                  work.field <- c(work.field, "Logistics")
+            }
+            
+            
+            #Handle INA association
+            
+            #define temp variables
+            ind <- toString(rawData[i,]$Industry)
+            cre <- toString(rawData[i,]$Creativity)
+            eco <- toString(rawData[i,]$Ecology)
+            sci <- toString(rawData[i,]$Science)
+            en <- toString(rawData[i,]$Energetics)
+            cro <- toString(rawData[i,]$Croatia)
+            ##MAGIC :D
+            newVec <- paste(ind,cre,eco,sci,en,cro, sep = ";")
+            newVec <- gsub(pattern = ";NA", x = newVec, replacement = "")
+            newVec <- gsub(pattern = ";;", x = newVec, replacement = "")
+            newVec <- gsub(pattern = "NA;", x = newVec, replacement = "")
+            ina.association <- c(ina.association, newVec)
+            
+            
+            #Handle Association career
+            association.career <- c(association.career, rawData[i,]$Association.Career)
+            
+            #Handle E-mail
+            email <- c(email, rawData[i,]$E.Mail)
+            
+            #Handle Network ID
+            network.id <- c(network.id, rawData[i,]$Network.ID)
+            
+      }
+      
+      #Store to new data frame
+      dataProc <- data.frame(id,sex,age,student.status,employer.opinion,national.identity,employee.satisfaction,
+                             future.employee,work.field,ina.association,association.career,email,network.id)
+      
+      dataProc
+}
+
+
+```
+
+
+##Load data
+```{r}
+library(ggplot2)
+path <- "/mnt/8C1A960B1A95F286/Bartol_work/INA_Career_LOGO/resources/"
+name <- "sample_survey.csv"
+data <- convertToRData(path,name)
+```
+
+##Plotting Sex
+
+```{r fig.width = 10, fig.height = 7}
+png(file = "sexPlot.png", bg = "white", width = 700, height=600, units = "px")
+plot <- ggplot(data = data, aes(x=sex, fill=sex)) + coord_cartesian(ylim=c(0,nrow(data)*0.7))
+plot <- plot + geom_bar(width=0.5) + xlab("Sex") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="Sex", breaks=c("F", "M"), labels=c("Female", "Male"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+plot <- plot + ggtitle("Your sex?")
+plot
+dev.off()
+```
+
+###Sex Analysis
+```{r}
+prop.table(table(data$sex))*100
+
+```
+Female percentage: XX.XX  
+Male percentage: XX.XX
+
+
+
+##Plotting Age
+
+```{r fig.width = 10, fig.height = 7}
+png(file = "agePlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=age, fill=age)) + coord_cartesian(ylim=c(0,nrow(data)*0.7))
+plot <- plot + geom_bar(width=0.5) + xlab("Age") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="Age", breaks=c("0-17", "18-20","21-23","24-26","27-Inf"), 
+                                   labels=c ("17 and below", "18 to 20", "21 to 23", "24 to 26", "27 or more"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+plot <- plot + ggtitle("Your age?")
+plot
+dev.off()
+```
+###Age Analysis
+```{r}
+prop.table(table(data$age))*100
+
+```
+Below 17 percentage: XX.XX  
+18-20 percentage: XX.XX  
+21-23 percentage: XX.XX  
+24-26 percentage: XX.XX  
+27 and above percentage: XX.XX
+
+
+
+##Plotting Student status
+
+```{r fig.width = 10, fig.height = 7}
+png(file = "studentStatusPlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=as.factor(student.status), fill=as.factor(student.status))) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- plot + geom_bar(width=0.5) + xlab("Student status") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="Sex", breaks=c(1, 0), labels=c("Student", "Not Student"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+plot <- plot + ggtitle("Are you a student?")
+plot
+dev.off()
+```
+
+###Student status Analysis
+```{r}
+## 0==NOT student, 1==Student
+prop.table(table(data$student.status))*100
+
+```
+Not student percentage: XX.XX  
+Student percentage: XX.XX
+
+
+
+##Plotting Employer opinion
+
+```{r fig.width = 10, fig.height = 7}
+png(file = "employerPlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=as.factor(employer.opinion))) + coord_cartesian(ylim=c(0,nrow(data)*0.6))
+plot <- plot + geom_bar(width=0.5, fill="deepskyblue3") + xlab("Employer rating") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + ggtitle("Your opinion on INA as an employer")
+plot
+dev.off()
+```
+
+###Employer opinion Analysis
+```{r}
+#Percentages by rating given
+prop.table(table(data$employer.opinion))*100
+
+mean <- mean(data$employer.opinion)
+
+summary(data$employer.opinion)
+sd <- sd(data$employer.opinion)
+
+#Calculating 95% confidence interval
+error <- qnorm(0.975)*sd/sqrt(nrow(data))
+left <- mean - error
+right <- mean + error
+
+cat(paste("95% confidence interval:", left, "-", right, sep = " "))
+
+```
+Mean rating: XX.XX  
+Standard deviation: XX.XX  
+95% confidence interval: XX.XX - XX-XX  
+
+
+##Plotting National identity
+
+```{r fig.width = 10, fig.height = 7}
+png(file = "nationalIdentityPlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=as.factor(national.identity))) + coord_cartesian(ylim=c(0,nrow(data)*0.40))
+plot <- plot + geom_bar(width=0.5, fill="deepskyblue3") + xlab("National Identity rating") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + ggtitle("How much do you associate INA with Croatia and the croatian national identity?" )
+plot
+dev.off()
+```
+
+###National identity Analysis
+```{r}
+#Percentages by rating given
+prop.table(table(data$national.identity))*100
+
+mean <- mean(data$national.identity)
+
+summary(data$national.identity)
+sd <- sd(data$national.identity)
+
+#Calculating 95% confidence interval
+error <- qnorm(0.975)*sd/sqrt(nrow(data))
+left <- mean - error
+right <- mean + error
+
+cat(paste("95% confidence interval:", left, "-", right, sep = " "))
+
+```
+Mean rating: XX.XX  
+Standard deviation: XX.XX  
+95% confidence interval: XX.XX - XX-XX  
+
+
+
+##Plotting Employee satisfaction
+
+```{r fig.width = 10, fig.height = 7}
+png(file = "employeeSatisfactionPlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=as.factor(employee.satisfaction), fill=as.factor(employee.satisfaction))) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- plot + geom_bar(width=0.5) + xlab("Yes or no") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="", breaks=c(1, 0), labels=c("Yes", "No"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+plot <- plot + ggtitle("Would you consider yourself satisfied as an employee in one of the fields of work that INA offers?")
+plot
+dev.off()
+```
+
+###Employee satisfaction Analysis
+```{r}
+## 0==Wouldn't be satisfied , 1==Would be satisfied
+prop.table(table(data$employee.satisfaction))*100
+
+```
+Yes: XX.XX  
+No: XX.XX
+
+
+
+
+##Plotting Future employee
+
+```{r fig.width = 10, fig.height = 7}
+png(file = "futureEmployeePlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=as.factor(future.employee), fill=as.factor(future.employee))) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- plot + geom_bar(width=0.5) + xlab("Yes or no") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="", breaks=c(1, 0), labels=c("Yes", "No"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+plot <- plot + ggtitle("Do you see yourself as a potential employee of the INA company?")
+plot
+dev.off()
+```
+
+###Future employee Analysis
+```{r}
+## 0==Doesn't see as employee , 1==See as employee
+prop.table(table(data$future.employee))*100
+
+```
+Yes: XX.XX  
+No: XX.XX  
+Ovdje možes naglasiti da iaoko puno ljudi bi bilo zadovoljno radom u INA-i, ne bih ih toliko htjelo
+raditi tamo
+
+
+
+##Plotting Work field
+
+```{r fig.width = 10, fig.height = 7}
+png(file = "workFieldPlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=work.field, fill=work.field)) + coord_cartesian(ylim=c(0,nrow(data)*0.45))
+plot <- plot + geom_bar(width=0.5) + xlab("Field of work") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="Field of work", breaks=c("Finances","IT_Support", "Logistics","Rafinery_Marketing","Research_Production_Oil_Gas"), 
+                                   labels=c("Finances", "IT Support", "Logistics", "Rafinery or Marketing",
+                                            "Research and production of\n Oil and Gas"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+plot <- plot + ggtitle("Which field of work that INA offers do you consider the most interesting?")
+plot
+dev.off()
+```
+
+###Work field Analysis
+```{r}
+prop.table(table(data$work.field))*100
+
+```
+Finances: XX.XX  
+IT Support: XX.XX  
+Logistics: XX.XX  
+Rafinery or Marketing: XX.XX  
+Research and production of Oil and Gas: XX.XX
+
+
+
+
+
+
+##Plotting INA Association
+
+```{r echo=FALSE}
+#Etracting levels into seperate categories
+industry <- character()
+creativity <- character()
+ecology <- character()
+science <- character()
+energetics <- character()
+croatia <- character()
+
+for(i in 1:nrow(data)){
+      #split values into list
+      tempList <- strsplit(x=as.character(data[i,]$ina.association), split = ';')
+      
+      #convert to vector
+      tempVec <- unlist(tempList)
+      for(j in 1:length(tempVec)){
+            if(tempVec[j]=="Kreativnost"){
+                  creativity <- c(creativity,tempVec[j])
+            }
+            else if(tempVec[j]=="Industrija"){
+                  industry <- c(industry,tempVec[j])
+            }
+            else if(tempVec[j]=="Energetika"){
+                  energetics <- c(energetics,tempVec[j])
+            }
+            else if(tempVec[j]=="Ekologija"){
+                  ecology <- c(ecology,tempVec[j])
+            }
+            else if(tempVec[j]=="Znanost"){
+                  science <- c(science,tempVec[j])
+            }
+            else{
+                  croatia <- c(croatia,tempVec[j])
+            }
+      }
+      
+}
+
+
+#create new data frame
+unifiedVector <- c(industry,croatia,creativity,ecology,science,energetics)
+frameINAAssociation <- data.frame(unifiedVector)
+colnames(frameINAAssociation) <- c("ina.association")
+```
+
+
+
+```{r fig.width = 10, fig.height = 7}
+#PLOTTING
+png(file = "INAAssociationPlot.png", bg = "white", width = 800, height=700, units = "px", res=72)
+plot <- ggplot(data = frameINAAssociation, aes(x=ina.association, fill=ina.association)) + coord_cartesian(ylim=c(0,nrow(frameINAAssociation)*0.5))
+plot <- plot + geom_bar(width=0.5) + xlab("INA Association") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
+plot <- plot + scale_fill_discrete(name="Associations", breaks=c("Ekologija","Energetika", "Hrvatska","Industrija","Kreativnost","Znanost"), 
+                                   labels=c("Ecology", "Energetics", "Croatia", "Industry",
+                                            "Creativity","Science"))
+plot <- plot + scale_x_discrete(breaks=NULL)
+plot <- plot + ggtitle("Which of following words would best describe your vision on INA as a company" )
+
+plot
+dev.off()
+```
+
+###INA Association Analysis
+```{r}
+prop.table(table(frameINAAssociation$ina.association))*100
+
+```
+Ekologija: XX.XX  
+Energetika: XX.XX  
+Hrvatska: XX.XX  
+Industrija: XX.XX  
+Kreativnost: XX.XX
+Znanost: XX.XX
+
+
+
+##Plotting most common words in answering career association
+
+```{r echo=FALSE}
+##Install neccesary packages
+#install.packages('tm')
+library(tm)
+
+
+#' @name Get Mined Text
+#' @author Bartol Freškura
+#' @description Analysis of the survey free answer question.
+#' @param data Dataframe containing answers in form of free text
+#' @return Vector containing words sorted by frequency
+getMinedText <- function(data){
+      
+      ##CONSTANTS
+      
+      #Croatian stopwords
+      croStop <- c("i", "ili", "sex", "kita", "kurac", "penis", "bartol", "je", "da","u","ono","sama","ja",
+                   "ti","on","ona","ono","mi","vi","me","se","smo","to","za","moje","ali","svo","do","od",
+                   "nam","uz","bi", "što", "kako", "da", "ne", "asocira", "koja", "koji", "koje", "svoju",
+                   "svom","volim", "volite","sve","tim","tom","toga","svoju","svojem","svoj","svake","sve",
+                   "stalnim","sva","vec","veće","vidi","zadimanje","zbog","znači", "sam","samo", "rgnfa",
+                   "radi","radimo","steknu","suojesnog","sva","svojem","svoju","trump","tom","toga","tim",
+                   "tako","tvrci","usput","vec","vidi","volim","volite", "piso","nosit","odabor","nase","
+             našem","naših","nekoj","nekom","nekome","može","moja","kroz","koliko","jest","kao",
+             "jako","dovodi","druge","cyxc","doći","čime","and","baviti","aint","zbog","tijekom",
+             "mene","kojeg","biti","htjeti","koji", "ako","tko","što","čiji","ciji","koja","kakav",
+             "kakve", "svakakve","svakakav","sebe","svoj","tu","one","netko","svatko", "kamo","
+             ondje","kada","zašto","donekle","mnogo","ih","gdje","kuda","zato","stoga","s","
+             sa","pa","pak","te","ni","niti","dok","god","nego","no","već","saomo","tek",
+             "čim","cim","pošto","posto","jer","budući","neka","kao","iako","premda","makar", "donald",
+             "fame","car","ćemu","bolj","gradiš","gradimo","imaš","imati","isto","jedn","jednim","
+             izrazita","gubitk","money","našem","onoga","oko","one","onog","opi","power","progr","
+             svoje", "bitch","fuck","shit","no","yes","ako","kojem","riječ","onom","itd","npr","npr.",
+             "ikakv","drugim","jednog","jednoj","nakon","mislim","svoje","ucini","karijera","karijere",
+             "karijeru","karijeri","asocira","što", "nešto", "nesto" ,"puno", "niz", "dio","onome")
+      
+      #Put all answers into one vector
+      
+      careerVec <- paste(data$association.career, collapse = " ")
+      
+      review_source <- VectorSource(careerVec)
+      
+      corpus <- Corpus(review_source)
+      
+      #Set all lower case
+      corpus <- tm_map(corpus, content_transformer(tolower))
+      
+      corpus <- tm_map(corpus, removePunctuation)
+      corpus <- tm_map(corpus, stripWhitespace)
+      corpus <- tm_map(corpus, removeNumbers)
+      #corpus <- tm_map(corpus, stemDocument)###Plotting INA Association
+      
+      #Remove croatian word with no specific meaning
+      corpus <- tm_map(corpus, removeWords, croStop)
+      
+      dtm <- DocumentTermMatrix(corpus)
+      dtm2 <- as.matrix(dtm)
+      
+      frequency <- colSums(dtm2)
+      frequency <- sort(frequency, decreasing=TRUE)
+      frequency
+      
+}
+```
+
+
+```{r}
+#install.packages('wordcloud')
+library(wordcloud)
+
+frequency <- getMinedText(data)
+
+words <- names(frequency)
+wordcloud(words[1:100],max.words = 20,  scale=c(6,0.5), frequency[1:100], random.color = TRUE,colors=brewer.pal(8, "Dark2"))
+
+```
+
+###Most common words Analysis
+Ne znam šta da ti ovdje napisem, imaš sliku, naseri koliko možes :D
+
+
+
+##Detailed analysis
+
+###Male Female ratio in fields of work
+```{r fig.width = 10, fig.height = 7}
+png(file = "SexFieldWorkPlot.png", bg = "white", width = 800, height=700, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=(work.field), fill=sex)) + coord_cartesian(ylim=c(0,nrow(data)*0.45))
+plot <- plot + geom_bar(width=0.5) + xlab("Field of work") + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=15), axis.title=element_text(size=15))
+plot <- plot + scale_fill_discrete(name="Sex", breaks=c("F","M"), 
+                                   labels=c("Female", "Male"))
+plot <- plot + scale_x_discrete(labels=c("Finances","IT Support","Logistics","Rafinery and\nMarketing","Research and\nproduction of \n Oil and Gas")) + xlab(NULL)
+
+plot <- plot + ggtitle("Which field of work that INA offers do you consider the most interesting?")
+plot
+dev.off()
+
+
+#Percentages
+prop.table(table(data$sex, data$work.field))*100
+```
+
+
+###Male Female ratio in Employee satisfaction
+```{r fig.width = 10, fig.height = 7}
+png(file = "SexEmployeeSatisfactionPlot.png", bg = "white", width = 800, height=700, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=as.factor(employee.satisfaction), fill=sex)) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- plot + geom_bar(width=0.5) + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=15), axis.title=element_text(size=15))
+plot <- plot + scale_fill_discrete(name="Sex",  breaks=c("F","M"), 
+                                   labels=c("Female", "Male"))
+plot <- plot + scale_x_discrete(labels=c("Yes", "No")) + xlab(NULL)
+
+plot <- plot + ggtitle("Would you consider yourself satisfied as an employee in one of the fields of work that INA offers?")
+plot
+dev.off()
+
+#Percentages
+prop.table(table(data$sex, data$employee.satisfaction))*100
+```
+
+  
+  
+
+###Male Female ratio in Future Employee
+```{r fig.width = 10, fig.height = 7}
+png(file = "SexFutureEmployeePlot.png", bg = "white", width = 800, height=700, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=as.factor(future.employee), fill=sex)) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- plot + geom_bar(width=0.5) + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=15), axis.title=element_text(size=15))
+plot <- plot + scale_fill_discrete(name="Sex",  breaks=c("F","M"), 
+                                   labels=c("Female", "Male"))
+plot <- plot + scale_x_discrete(labels=c("Yes", "No")) + xlab(NULL)
+
+plot <- plot + ggtitle("Do you see yourself as a potential employee of the INA company?")
+plot
+dev.off()
+#Percentages
+prop.table(table(data$sex, data$future.employee))*100
+```
