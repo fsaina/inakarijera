@@ -1,5 +1,4 @@
-# Rjesenje
-## Ina karijere
+# INA #Rebranddd
 ### Filip Šaina & Bartol Freškura
 
 
@@ -7,26 +6,27 @@
 <br>
 <br>
 
-Table of contents:
+Sadrzaj:
 
-1.  Uvod
-2.	 Analiza provedene ankete
-3. 	 Analiza podataka sa drustvenih mreza(LinkedIn, Facebook)
-4.  Usporedba sa ostalim globalnim i regionalnim konkurentskim brandovima
-5.  Zakljuci izvedeni iz ulazinih podataka
-6.  Konacno rjesenje
+	1.  Uvod
+	2.	Analiza provedene ankete
+	3. 	Analiza podataka sa drustvenih mreza(LinkedIn, Facebook)
+	4.  Usporedba sa ostalim globalnim i regionalnim konkurentskim brandovima
+	5.  Zakljuci izvedeni iz ulazinih podataka
+	6.  Konacno rjesenje
 
 <br>
 <br>
 <br>
 
 
-# 1. Uvod
->>Napisati koji su coljevi projekta, malo o sammom natjecaju, kako smo primjetili da se ININ logo vodi po principu analiticnosti (29% vs 71%). Tko je sve sudjelovao, zasto smo koristili super kratke ankete(nac neke znanstvene radove koji podupiru tvrdnju), objasniti zasto smo koristli R. Za grafiku smo korisitili photoshop (znam da nije photoshop).
+## 1. Uvod
+	INA #rebrand natjecanje u redizajnu *INA karijera* logotipa 
+	>>Napisati koji su coljevi projekta, malo o sammom natjecaju, kako smo primjetili da se ININ logo vodi po principu analiticnosti (29% vs 71%). Tko je sve sudjelovao, zasto smo koristili super kratke ankete(nac neke znanstvene radove koji podupiru tvrdnju), objasniti zasto smo koristli R. Za grafiku smo korisitili photoshop (znam da nije photoshop).
 
-# 2.Analiza provedene ankete
+## 2.Analiza provedene ankete
 Anekta(*https://upitnik.typeform.com/to/QWPSSI*)
-<br>U svrhu boljeg razumijevanja videnja mlade populacije, cesto okarakterizirane kao *studenti*, prema *INA grupaciji* kao kompaniji i potencijalnog poslodavca proveli smo kratku anketu nad ciljanom skupinom mladnih od 18-27 godina.*Studentska* populacija je odabrana kao ciljana skupina zbog jednostavnosti provodenja ankete, osobama od velike vaznosti za sadasnje i buduce poslodavce. Anketa se kroz **8** pitanja(+3 podpitanja) dodicala najosnovnijih i najbitnijih elemenataka koji bi mogli biti od vaznosti pri dizajnu novog **INA KARIJERE** *loga*. Odabrane su varijacije pri odabiru pitanja u vidu slobode odgovora, tako da se postigne balansirani odnost izmenu odgovora slobodne forme kao i navodenih odgovora. Jedan od primjera je pitanje poput **Na sto Vas asocira rijec karijera?** - sto je za cilj uzimalo slobodnu, ne navodenu, karakterizaciju te rijeci. 
+<br>U svrhu boljeg razumijevanja videnja mlade populacije, cesto okarakterizirane kao *studenti*, prema *INA grupaciji* kao kompaniji i potencijalnog poslodavca proveli smo kratku anketu nad ciljanom skupinom mladnih od 18-27 godina.*Studentska* populacija je odabrana kao ciljana skupina zbog jednostavnosti provodenja ankete, osobama od velike vaznosti za sadasnje i buduce poslodavce. Anketa se kroz **8+3** pitanja dodicala najosnovnijih i najbitnijih elemenataka koji bi mogli biti od vaznosti pri dizajnu novog **INA KARIJERE** *loga*. Odabrane su varijacije pri odabiru pitanja u vidu slobode odgovora, tako da se postigne balansirani odnost izmenu odgovora slobodne forme kao i navodenih odgovora. Jedan od primjera je pitanje poput **Na sto Vas asocira rijec karijera?** - sto je za cilj uzimalo slobodnu, ne navodenu, karakterizaciju te rijeci. 
 
 Anketa je u konacnici obuhvatila **250** pojedinaca iz Zagreba, Rijeke, Pule i Splita - mjesta gdje je i bila distribuirana kroz drustvene mreze. Neke od pitanja poput spola i statusa zaposlenja, iako nebitni za samu tehnicku reazlizaciju *INA karijera* loga, pruzili su bolji uvid u generalne ciljeve koje si moramo postaviti pri izradi loga ali i bolje razumijevanje nacina na koji je INA, kao brand, postavljen na trzistu.
 
@@ -99,7 +99,7 @@ Ako bi mogao opisati nase rjesenje... sugestivno se igra sa nasom podsvijesti, p
 
 
 
-# 3.Analiza podatak sa drustvenih mreza
+## 3.Analiza podatak sa drustvenih mreza
 
 Drustvene mreze danas predstavalju neizmjeran izvor informacija. Svaka nasa interakcija sa istima ostavlja jedinstveni trag koji, u kombinaciji sa vecim brojem ostalih, moze posluziti preciznom pracenju trendova u drustvu. Ogranicenje koje iste ostvaruju moze se samo mjeriti kalitetom alata kojima ih mozemo analizirati. Zato smo se opredijelili za najmocnije metode analize velikog broja podataka. Koristeci modele iz Big Data analize u kombinaciji sa R programskim jezikom, uspjeli smo izvuci sve mjerodavne podatke koje smo si postavili za cilj na vrlo efikasan nacin. Drustevene mreze koje smo analizirali su:
 	1. Facebook 
@@ -115,7 +115,7 @@ Pritom vodeci racuna o kvaliteti ulazih podataka i opseznosti uzimanih uzoraka. 
 >> ANALIZA
 
 
-# 4. Zakljuci izvedeni iz ulaznih podataka
+## 4. Zakljuci izvedeni iz ulaznih podataka
 
 Na temelju provedene ankete dokazali smo da je INA kao brand pozitivno zastupljena u drustvu kao atraktivan poslovni odabir i poslodavac. Njezin svevremenski, jednotstaavni dizajn prepoznatiljv je i lako dostupan cime u buducim dizajnu tezimo prema ostvarivanja koherencije sa istom, bez velikih ostupanja od estetskih karakteristika koje logo nudi. Iako je ina prepoznata kao naftno-preadivacka industrija - ne postoji jasna potreba za ekspricitnim naglasivanjem istoga pa samim tim nastojim ukloniti graficke detalje koje bi ju vezivali uz navedenu granu djelatnosti. Ovime postizemo univerzalnu primjenu logotipa, bez obzira na buduce poslovne strategije navedene kompanije. Nadalje, iako komapnija sa sjedistem u hrvatskoj, generalno je misljenje da INA nije toliko vezana u nase podneblje - cime efektivno svaki dizajn ostvaren sa nase strane je lisen ikakvih simbola, sugestija ili obiljezlja koji bi to ostvarivali. Ovime osiguravamo regionalnu i svijetsku nezavisnost prema dizajnu.
 <br>
@@ -131,7 +131,7 @@ Optimalan uciank bi se postigao inkorporiranjem tih asociacija sa originalnim lo
 <br>
 Ovaj zakljucak, kao i svi prijasni, postali su nam preduvijet koji mora ispuniti svaki korak dizajna i na kojemu cemo inzistirati kroz razvoj.
 
-# 5. Konacno rjesnje
+## 5. Konacno rjesnje
 
 1. "*Ina progress*"
 <SLIKA>
