@@ -202,13 +202,15 @@ data <- convertToRData(path,name)
 ##Plotting Sex
 
 ```{r fig.width = 10, fig.height = 7}
-plot <- ggplot(data = data, aes(x=sex, fill=sex)) + coord_cartesian(ylim=c(0,nrow(data)))
+png(file = "sexPlot.png", bg = "white", width = 700, height=600, units = "px")
+plot <- ggplot(data = data, aes(x=sex, fill=sex)) + coord_cartesian(ylim=c(0,nrow(data)*0.7))
 plot <- plot + geom_bar(width=0.5) + xlab("Sex") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + scale_fill_discrete(name="Sex", breaks=c("F", "M"), labels=c("Female", "Male"))
 plot <- plot + scale_x_discrete(breaks=NULL)
 plot <- plot + ggtitle("Your sex?")
 plot
+dev.off()
 ```
 
 ###Sex Analysis
@@ -224,7 +226,8 @@ Male percentage: XX.XX
 ##Plotting Age
 
 ```{r fig.width = 10, fig.height = 7}
-plot <- ggplot(data = data, aes(x=age, fill=age)) + coord_cartesian(ylim=c(0,nrow(data)))
+png(file = "agePlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=age, fill=age)) + coord_cartesian(ylim=c(0,nrow(data)*0.7))
 plot <- plot + geom_bar(width=0.5) + xlab("Age") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + scale_fill_discrete(name="Age", breaks=c("0-17", "18-20","21-23","24-26","27-Inf"), 
@@ -232,6 +235,7 @@ plot <- plot + scale_fill_discrete(name="Age", breaks=c("0-17", "18-20","21-23",
 plot <- plot + scale_x_discrete(breaks=NULL)
 plot <- plot + ggtitle("Your age?")
 plot
+dev.off()
 ```
 ###Age Analysis
 ```{r}
@@ -249,6 +253,7 @@ Below 17 percentage: XX.XX
 ##Plotting Student status
 
 ```{r fig.width = 10, fig.height = 7}
+png(file = "studentStatusPlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
 plot <- ggplot(data = data, aes(x=as.factor(student.status), fill=as.factor(student.status))) + coord_cartesian(ylim=c(0,nrow(data)))
 plot <- plot + geom_bar(width=0.5) + xlab("Student status") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
@@ -256,6 +261,7 @@ plot <- plot + scale_fill_discrete(name="Sex", breaks=c(1, 0), labels=c("Student
 plot <- plot + scale_x_discrete(breaks=NULL)
 plot <- plot + ggtitle("Are you a student?")
 plot
+dev.off()
 ```
 
 ###Student status Analysis
@@ -272,11 +278,13 @@ Student percentage: XX.XX
 ##Plotting Employer opinion
 
 ```{r fig.width = 10, fig.height = 7}
+png(file = "employerPlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
 plot <- ggplot(data = data, aes(x=as.factor(employer.opinion))) + coord_cartesian(ylim=c(0,nrow(data)*0.6))
 plot <- plot + geom_bar(width=0.5, fill="deepskyblue3") + xlab("Employer rating") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + ggtitle("Your opinion on INA as an employer")
 plot
+dev.off()
 ```
 
 ###Employer opinion Analysis
@@ -305,11 +313,13 @@ Standard deviation: XX.XX
 ##Plotting National identity
 
 ```{r fig.width = 10, fig.height = 7}
+png(file = "nationalIdentityPlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
 plot <- ggplot(data = data, aes(x=as.factor(national.identity))) + coord_cartesian(ylim=c(0,nrow(data)*0.40))
 plot <- plot + geom_bar(width=0.5, fill="deepskyblue3") + xlab("National Identity rating") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
 plot <- plot + ggtitle("How much do you associate INA with Croatia and the croatian national identity?" )
 plot
+dev.off()
 ```
 
 ###National identity Analysis
@@ -339,6 +349,7 @@ Standard deviation: XX.XX
 ##Plotting Employee satisfaction
 
 ```{r fig.width = 10, fig.height = 7}
+png(file = "employeeSatisfactionPlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
 plot <- ggplot(data = data, aes(x=as.factor(employee.satisfaction), fill=as.factor(employee.satisfaction))) + coord_cartesian(ylim=c(0,nrow(data)))
 plot <- plot + geom_bar(width=0.5) + xlab("Yes or no") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
@@ -346,6 +357,7 @@ plot <- plot + scale_fill_discrete(name="", breaks=c(1, 0), labels=c("Yes", "No"
 plot <- plot + scale_x_discrete(breaks=NULL)
 plot <- plot + ggtitle("Would you consider yourself satisfied as an employee in one of the fields of work that INA offers?")
 plot
+dev.off()
 ```
 
 ###Employee satisfaction Analysis
@@ -363,6 +375,7 @@ No: XX.XX
 ##Plotting Future employee
 
 ```{r fig.width = 10, fig.height = 7}
+png(file = "futureEmployeePlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
 plot <- ggplot(data = data, aes(x=as.factor(future.employee), fill=as.factor(future.employee))) + coord_cartesian(ylim=c(0,nrow(data)))
 plot <- plot + geom_bar(width=0.5) + xlab("Yes or no") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
@@ -370,6 +383,7 @@ plot <- plot + scale_fill_discrete(name="", breaks=c(1, 0), labels=c("Yes", "No"
 plot <- plot + scale_x_discrete(breaks=NULL)
 plot <- plot + ggtitle("Do you see yourself as a potential employee of the INA company?")
 plot
+dev.off()
 ```
 
 ###Future employee Analysis
@@ -388,7 +402,7 @@ raditi tamo
 ##Plotting Work field
 
 ```{r fig.width = 10, fig.height = 7}
-
+png(file = "workFieldPlot.png", bg = "white", width = 700, height=600, units = "px", res=72)
 plot <- ggplot(data = data, aes(x=work.field, fill=work.field)) + coord_cartesian(ylim=c(0,nrow(data)*0.45))
 plot <- plot + geom_bar(width=0.5) + xlab("Field of work") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
@@ -398,6 +412,7 @@ plot <- plot + scale_fill_discrete(name="Field of work", breaks=c("Finances","IT
 plot <- plot + scale_x_discrete(breaks=NULL)
 plot <- plot + ggtitle("Which field of work that INA offers do you consider the most interesting?")
 plot
+dev.off()
 ```
 
 ###Work field Analysis
@@ -467,6 +482,7 @@ colnames(frameINAAssociation) <- c("ina.association")
 
 ```{r fig.width = 10, fig.height = 7}
 #PLOTTING
+png(file = "INAAssociationPlot.png", bg = "white", width = 800, height=700, units = "px", res=72)
 plot <- ggplot(data = frameINAAssociation, aes(x=ina.association, fill=ina.association)) + coord_cartesian(ylim=c(0,nrow(frameINAAssociation)*0.5))
 plot <- plot + geom_bar(width=0.5) + xlab("INA Association") + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=17), axis.title=element_text(size=17))
@@ -477,6 +493,7 @@ plot <- plot + scale_x_discrete(breaks=NULL)
 plot <- plot + ggtitle("Which of following words would best describe your vision on INA as a company" )
 
 plot
+dev.off()
 ```
 
 ###INA Association Analysis
@@ -529,7 +546,7 @@ getMinedText <- function(data){
              izrazita","gubitk","money","našem","onoga","oko","one","onog","opi","power","progr","
              svoje", "bitch","fuck","shit","no","yes","ako","kojem","riječ","onom","itd","npr","npr.",
              "ikakv","drugim","jednog","jednoj","nakon","mislim","svoje","ucini","karijera","karijere",
-             "karijeru","karijeri","asocira","što", "nešto", "nesto" ,"puno", "niz")
+             "karijeru","karijeri","asocira","što", "nešto", "nesto" ,"puno", "niz", "dio","onome")
       
       #Put all answers into one vector
       
@@ -568,7 +585,7 @@ library(wordcloud)
 frequency <- getMinedText(data)
 
 words <- names(frequency)
-wordcloud(words[1:100],max.words = 30,  scale=c(5,0.5), frequency[1:100], random.color = TRUE,colors=brewer.pal(8, "Dark2"))
+wordcloud(words[1:100],max.words = 20,  scale=c(6,0.5), frequency[1:100], random.color = TRUE,colors=brewer.pal(8, "Dark2"))
 
 ```
 
@@ -581,16 +598,17 @@ Ne znam šta da ti ovdje napisem, imaš sliku, naseri koliko možes :D
 
 ###Male Female ratio in fields of work
 ```{r fig.width = 10, fig.height = 7}
-
+png(file = "SexFieldWorkPlot.png", bg = "white", width = 800, height=700, units = "px", res=72)
 plot <- ggplot(data = data, aes(x=(work.field), fill=sex)) + coord_cartesian(ylim=c(0,nrow(data)*0.45))
 plot <- plot + geom_bar(width=0.5) + xlab("Field of work") + ylab("Count")
-plot <- plot + theme(axis.text=element_text(size=13), axis.title=element_text(size=13))
-plot <- plot + scale_fill_discrete(name="Field of work", breaks=c("F","M"), 
+plot <- plot + theme(axis.text=element_text(size=15), axis.title=element_text(size=15))
+plot <- plot + scale_fill_discrete(name="Sex", breaks=c("F","M"), 
                                    labels=c("Female", "Male"))
 plot <- plot + scale_x_discrete(labels=c("Finances","IT Support","Logistics","Rafinery and\nMarketing","Research and\nproduction of \n Oil and Gas")) + xlab(NULL)
 
-plot <- plot + ggtitle("Field of Work shown along with male to female rations")
+plot <- plot + ggtitle("Which field of work that INA offers do you consider the most interesting?")
 plot
+dev.off()
 
 
 #Percentages
@@ -600,18 +618,38 @@ prop.table(table(data$sex, data$work.field))*100
 
 ###Male Female ratio in Employee satisfaction
 ```{r fig.width = 10, fig.height = 7}
-
+png(file = "SexEmployeeSatisfactionPlot.png", bg = "white", width = 800, height=700, units = "px", res=72)
 plot <- ggplot(data = data, aes(x=as.factor(employee.satisfaction), fill=sex)) + coord_cartesian(ylim=c(0,nrow(data)))
 plot <- plot + geom_bar(width=0.5) + ylab("Count")
-plot <- plot + theme(axis.text=element_text(size=13), axis.title=element_text(size=13))
-plot <- plot + scale_fill_discrete(name="",  breaks=c("F","M"), 
+plot <- plot + theme(axis.text=element_text(size=15), axis.title=element_text(size=15))
+plot <- plot + scale_fill_discrete(name="Sex",  breaks=c("F","M"), 
                                    labels=c("Female", "Male"))
 plot <- plot + scale_x_discrete(labels=c("Yes", "No")) + xlab(NULL)
 
-plot <- plot + ggtitle("Field of Work shown along with male to female rations")
+plot <- plot + ggtitle("Would you consider yourself satisfied as an employee in one of the fields of work that INA offers?")
 plot
-
+dev.off()
 
 #Percentages
 prop.table(table(data$sex, data$employee.satisfaction))*100
+```
+
+  
+  
+
+###Male Female ratio in Future Employee
+```{r fig.width = 10, fig.height = 7}
+png(file = "SexFutureEmployeePlot.png", bg = "white", width = 800, height=700, units = "px", res=72)
+plot <- ggplot(data = data, aes(x=as.factor(future.employee), fill=sex)) + coord_cartesian(ylim=c(0,nrow(data)))
+plot <- plot + geom_bar(width=0.5) + ylab("Count")
+plot <- plot + theme(axis.text=element_text(size=15), axis.title=element_text(size=15))
+plot <- plot + scale_fill_discrete(name="Sex",  breaks=c("F","M"), 
+                                   labels=c("Female", "Male"))
+plot <- plot + scale_x_discrete(labels=c("Yes", "No")) + xlab(NULL)
+
+plot <- plot + ggtitle("Do you see yourself as a potential employee of the INA company?")
+plot
+dev.off()
+#Percentages
+prop.table(table(data$sex, data$future.employee))*100
 ```
