@@ -5,4 +5,6 @@ dataAnalysis/plots.pdf
 **/~$final.docx
 **/solution_hr.html
 *.tmp
+.DS_Store
+graphics/.DS_Store
 
