@@ -195,7 +195,7 @@ convertToRData <- function(path, fileName){
 ```{r}
 library(ggplot2)
 path <- "/mnt/8C1A960B1A95F286/Bartol_work/INA_Career_LOGO/resources/"
-name <- "sample_survey.csv"
+name <- "anketa_INA_final.csv"
 data <- convertToRData(path,name)
 ```
 
@@ -645,7 +645,7 @@ plot <- plot + geom_bar(width=0.5) + ylab("Count")
 plot <- plot + theme(axis.text=element_text(size=15), axis.title=element_text(size=15))
 plot <- plot + scale_fill_discrete(name="Sex",  breaks=c("F","M"), 
                                    labels=c("Female", "Male"))
-plot <- plot + scale_x_discrete(labels=c("Yes", "No")) + xlab(NULL)
+plot <- plot + scale_x_discrete(labels=c("No", "Yes")) + xlab(NULL)
 
 plot <- plot + ggtitle("Do you see yourself as a potential employee of the INA company?")
 plot
