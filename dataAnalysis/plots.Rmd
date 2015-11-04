@@ -195,7 +195,7 @@ convertToRData <- function(path, fileName){
 ```{r}
 library(ggplot2)
 path <- "/mnt/8C1A960B1A95F286/Bartol_work/INA_Career_LOGO/resources/"
-name <- "anketa_INA_final.csv"
+name <- "anketa_INA_final_noEmail.csv"
 data <- convertToRData(path,name)
 ```
 
