@@ -1,2 +1,0 @@
-# Ina Karijera
-graphics
