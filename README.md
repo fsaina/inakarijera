@@ -1,4 +1,5 @@
 
-# INA_karijera
-INA Rebranddd competition for redesigning INA karijara logo
+# INA_career
+INA 
+INA #Rebranddd repository for the desing contest
 
